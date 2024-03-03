@@ -27,11 +27,17 @@ export const newMemberTypeId = new GraphQLEnumType({
 });
 
 export const newMemberType = new GraphQLObjectType({
-    name: 'memberType',
+    name: 'MemberType',
     fields: () => ({
-        id: {type: newMemberTypeId},
-        discount: {type: GraphQLFloat},
-        postsLimitPerMonth: { type: GraphQLInt },
+        id: {
+            type: new GraphQLNonNull(newMemberTypeId)
+        },
+        discount: {
+            type: new GraphQLNonNull(GraphQLFloat)
+        },
+        postsLimitPerMonth: {
+            type: new GraphQLNonNull(GraphQLInt)
+        },
     })
 });
 
@@ -55,7 +61,7 @@ export const profileType = new GraphQLObjectType({
             type: new GraphQLNonNull(newMemberTypeId)
         },
         memberType: {
-            type: newMemberTypeId,
+            type: newMemberType,
             resolve: async (parent: { memberTypeId: string }, args, context: { prisma: PrismaClient }) => {
                 return await context.prisma.memberType.findUnique({
                     where: {
@@ -105,7 +111,7 @@ export const postType = new GraphQLObjectType({
 
 export const userType = new GraphQLObjectType({
     name: 'User',
-    fields: {
+    fields: () => ({
         id: {
             type: UUIDType
         },
@@ -134,11 +140,11 @@ export const userType = new GraphQLObjectType({
                     }
                 })
             }
-        },/*
+        },
         userSubscribedTo: {
             type: new GraphQLList(userType),
             resolve: async (parent: {id: string}, args, context: { prisma: PrismaClient }) => {
-                await context.prisma.user.findMany({
+                return await context.prisma.user.findMany({
                     where: {
                         subscribedToUser: {
                             some: {
@@ -148,9 +154,22 @@ export const userType = new GraphQLObjectType({
                     }
                 })
             }
-        },*/
-        //subscribedToUser: {}
-    }
+        },
+        subscribedToUser: {
+            type: new GraphQLList(userType),
+            resolve: async (parent: {id: string}, args, context: { prisma: PrismaClient }) => {
+                return await context.prisma.user.findMany({
+                    where: {
+                        userSubscribedTo: {
+                            some: {
+                                subscriberId: parent.id,
+                            }
+                        }
+                    }
+                })
+            }
+        }
+    })
 });
 
 export const newUserInputType = new GraphQLInputObjectType({

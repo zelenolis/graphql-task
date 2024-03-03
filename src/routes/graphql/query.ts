@@ -10,7 +10,8 @@ export const rootQuery = new GraphQLObjectType({
         memberTypes: {
             type: new GraphQLList(newMemberType),
             resolve: async (parent, args, context: { prisma: PrismaClient }) => {
-                return await context.prisma.memberType.findMany()},
+                return await context.prisma.memberType.findMany()
+            },
         },
 
         memberType: {
