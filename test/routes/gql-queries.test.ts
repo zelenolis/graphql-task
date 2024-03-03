@@ -53,14 +53,6 @@ await test('gql-queries', async (t) => {
         }
     }`,
     });
-    console.log(`---------------------------------------------------------------------------------------`);
-    console.log(`---------------------------------------------------------------------------------------`);
-    console.log(JSON.stringify(data.memberTypes));
-    console.log(JSON.stringify(memberTypes));
-    console.log(data.memberTypes.length);
-    console.log(memberTypes.length);
-    console.log(`---------------------------------------------------------------------------------------`);
-    console.log(`---------------------------------------------------------------------------------------`);
 
     t.ok(data.memberTypes.length === memberTypes.length);
     t.ok(data.posts.length === posts.length);

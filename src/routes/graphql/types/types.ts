@@ -113,13 +113,13 @@ export const userType = new GraphQLObjectType({
     name: 'User',
     fields: () => ({
         id: {
-            type: UUIDType
+            type: new GraphQLNonNull(UUIDType)
         },
         name: {
-            type: GraphQLString
+            type: new GraphQLNonNull(GraphQLString)
         },
         balance: {
-            type: GraphQLFloat
+            type: GraphQLInt
         },
         profile: {
             type: profileType,
@@ -162,7 +162,7 @@ export const userType = new GraphQLObjectType({
                     where: {
                         userSubscribedTo: {
                             some: {
-                                subscriberId: parent.id,
+                                authorId: parent.id,
                             }
                         }
                     }
@@ -179,7 +179,7 @@ export const newUserInputType = new GraphQLInputObjectType({
             type: new GraphQLNonNull(GraphQLString)
         },
         balance: {
-            type: new GraphQLNonNull(GraphQLFloat)
+            type: GraphQLFloat
         }
     })
 });
@@ -191,7 +191,7 @@ export const newPostInputType = new GraphQLInputObjectType({
             type: new GraphQLNonNull(GraphQLString)
         },
         content: {
-            type: new GraphQLNonNull(GraphQLFloat)
+            type: new GraphQLNonNull(GraphQLString)
         },
         authorId: {
             type: new GraphQLNonNull(UUIDType)

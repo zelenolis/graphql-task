@@ -21,9 +21,11 @@ export const rootQuery = new GraphQLObjectType({
                     type: new GraphQLNonNull(newMemberTypeId)
                 }
             },
-            resolve: async (parent, {id}, context: { prisma: PrismaClient }) => {
+            resolve: async (parent, args: {id: string}, context: { prisma: PrismaClient }) => {
                 return await context.prisma.memberType.findUnique({
-                    where: { id },
+                    where: {
+                        id: args.id
+                    }
                 })
             }
         },
