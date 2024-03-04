@@ -41,24 +41,23 @@ export const newMemberType = new GraphQLObjectType({
     })
 });
 
-
 export const profileType = new GraphQLObjectType({
     name: 'Profile',
     fields: () => ({
         id: {
-            type: new GraphQLNonNull(UUIDType)
+            type: UUIDType
         },
         isMale: {
-            type: new GraphQLNonNull(GraphQLBoolean)
+            type: GraphQLBoolean
         },
         yearOfBirth: {
-            type: new GraphQLNonNull(GraphQLInt)
+            type: GraphQLInt
         },
         userId: {
-            type: new GraphQLNonNull(UUIDType)
+            type: UUIDType
         },
         memberTypeId: {
-            type: new GraphQLNonNull(newMemberTypeId)
+            type: newMemberTypeId
         },
         memberType: {
             type: newMemberType,
@@ -113,18 +112,18 @@ export const userType = new GraphQLObjectType({
     name: 'User',
     fields: () => ({
         id: {
-            type: new GraphQLNonNull(UUIDType)
+            type: UUIDType
         },
         name: {
-            type: new GraphQLNonNull(GraphQLString)
+            type: GraphQLString
         },
         balance: {
-            type: GraphQLInt
+            type: GraphQLFloat
         },
         profile: {
             type: profileType,
             resolve: async (parent: {id: string}, args, context: { prisma: PrismaClient }) => {
-                await context.prisma.profile.findUnique({
+                return await context.prisma.profile.findUnique({
                     where: {
                         userId: parent.id
                     }
@@ -134,7 +133,7 @@ export const userType = new GraphQLObjectType({
         posts: {
             type: new GraphQLList(postType),
             resolve: async (parent: {id: string}, args, context: { prisma: PrismaClient }) => {
-                await context.prisma.post.findMany({
+                return await context.prisma.post.findMany({
                     where: {
                         authorId: parent.id
                     }

@@ -187,6 +187,12 @@ await test('gql-queries', async (t) => {
       }`,
     });
 
+    console.log(`----------------------------------------------------------------------------------------------------------`);
+    console.log(JSON.stringify(dataUser.user))
+    console.log(JSON.stringify(dataUser.user.profile))
+    console.log(JSON.stringify(profile1.id))
+    console.log(`----------------------------------------------------------------------------------------------------------`);
+
     t.ok(dataUser.user.id === user1.id);
     t.ok(dataUser.user.profile.id === profile1.id);
     t.ok(dataUser.user.profile.memberType?.id === MemberTypeId.BASIC);
