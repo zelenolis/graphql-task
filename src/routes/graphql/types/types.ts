@@ -197,3 +197,30 @@ export const newPostInputType = new GraphQLInputObjectType({
         }
     })
 });
+
+export const changeUserInput = new GraphQLInputObjectType({
+    name: 'ChangeUserInput',
+    fields: {
+        name: {
+            type: GraphQLString
+        }
+    }
+});
+
+export const changePostInput = new GraphQLInputObjectType({
+    name: 'ChangePostInput',
+    fields: {
+        title: {
+            type: GraphQLString
+        }
+    }
+});
+
+export const changeProfileInput = new GraphQLInputObjectType({
+    name: 'ChangeProfileInput',
+    fields: {
+        isMale: {
+            type: GraphQLBoolean 
+        }
+    }
+});
